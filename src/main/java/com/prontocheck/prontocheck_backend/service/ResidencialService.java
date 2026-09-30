@@ -18,4 +18,8 @@ public class ResidencialService {
     public List<Residencial> obtenerResidencialesActivos() {
         return residencialRepository.findByActivoTrue();
     }
+
+    public Residencial crearResidencial(Residencial residencial) {
+        return residencialRepository.save(residencial);
+    }
 }
