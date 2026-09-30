@@ -31,4 +31,19 @@ public class GlobalExceptionHandler {
                 .status(HttpStatus.BAD_REQUEST)
                 .body(respuesta);
     }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<Map<String, Object>> manejarConflicto(
+            IllegalArgumentException exception) {
+
+        Map<String, Object> respuesta = new HashMap<>();
+
+        respuesta.put("status", HttpStatus.CONFLICT.value());
+        respuesta.put("error", "Conflict");
+        respuesta.put("mensaje", exception.getMessage());
+
+        return ResponseEntity
+                .status(HttpStatus.CONFLICT)
+                .body(respuesta);
+    }
 }

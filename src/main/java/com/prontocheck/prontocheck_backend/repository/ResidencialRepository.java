@@ -9,4 +9,6 @@ import java.util.UUID;
 public interface ResidencialRepository extends JpaRepository<Residencial, UUID> {
 
     List<Residencial> findByActivoTrue();
+
+    boolean existsByNombreIgnoreCase(String nombre);
 }

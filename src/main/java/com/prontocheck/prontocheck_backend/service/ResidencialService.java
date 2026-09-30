@@ -20,6 +20,13 @@ public class ResidencialService {
     }
 
     public Residencial crearResidencial(Residencial residencial) {
-        return residencialRepository.save(residencial);
+
+    if (residencialRepository.existsByNombreIgnoreCase(residencial.getNombre())) {
+        throw new IllegalArgumentException(
+                "Ya existe un residencial con ese nombre"
+        );
     }
+
+    return residencialRepository.save(residencial);
+}
 }
