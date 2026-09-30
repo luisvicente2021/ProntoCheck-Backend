@@ -5,6 +5,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
 
 import java.util.UUID;
 
@@ -16,6 +17,7 @@ public class Residencial {
     @GeneratedValue
     private UUID id;
 
+    @NotBlank(message = "El nombre del residencial es obligatorio")
     @Column(nullable = false)
     private String nombre;
 

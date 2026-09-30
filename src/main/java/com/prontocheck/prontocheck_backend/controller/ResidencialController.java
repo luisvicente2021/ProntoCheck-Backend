@@ -2,6 +2,7 @@ package com.prontocheck.prontocheck_backend.controller;
 
 import com.prontocheck.prontocheck_backend.model.Residencial;
 import com.prontocheck.prontocheck_backend.service.ResidencialService;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -26,7 +27,8 @@ public class ResidencialController {
     }
 
     @PostMapping
-    public Residencial crearResidencial(@RequestBody Residencial residencial) {
+    public Residencial crearResidencial(
+            @Valid @RequestBody Residencial residencial) {
         return residencialService.crearResidencial(residencial);
     }
 }
