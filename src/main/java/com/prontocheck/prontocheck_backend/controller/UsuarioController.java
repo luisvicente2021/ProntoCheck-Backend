@@ -2,7 +2,7 @@ package com.prontocheck.prontocheck_backend.controller;
 
 import com.prontocheck.prontocheck_backend.dto.UsuarioActualResponse;
 import com.prontocheck.prontocheck_backend.model.Usuario;
-import com.prontocheck.prontocheck_backend.repository.UsuarioRepository;
+import com.prontocheck.prontocheck_backend.service.UsuarioService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.jwt.Jwt;
@@ -16,10 +16,10 @@ import java.util.UUID;
 @RequestMapping("/api/usuario")
 public class UsuarioController {
 
-    private final UsuarioRepository usuarioRepository;
+    private final UsuarioService usuarioService;
 
-    public UsuarioController(UsuarioRepository usuarioRepository) {
-        this.usuarioRepository = usuarioRepository;
+    public UsuarioController(UsuarioService usuarioService) {
+        this.usuarioService = usuarioService;
     }
 
     @GetMapping("/me")
@@ -28,15 +28,14 @@ public class UsuarioController {
 
         UUID authUserId = UUID.fromString(jwt.getSubject());
 
-        return usuarioRepository
-                .findByAuthUserId(authUserId)
-                .filter(Usuario::getActivo)
-                .map(usuario -> new UsuarioActualResponse(
-                        usuario.getNombre(),
-                        usuario.getEmail(),
-                        usuario.getRol()
-                ))
-                .map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
+        Usuario usuario = usuarioService.obtenerUsuarioActivo(authUserId);
+
+        UsuarioActualResponse response = new UsuarioActualResponse(
+                usuario.getNombre(),
+                usuario.getEmail(),
+                usuario.getRol()
+        );
+
+        return ResponseEntity.ok(response);
     }
 }
