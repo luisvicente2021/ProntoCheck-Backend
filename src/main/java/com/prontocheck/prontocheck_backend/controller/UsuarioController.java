@@ -38,4 +38,15 @@ public class UsuarioController {
 
         return ResponseEntity.ok(response);
     }
+
+    @GetMapping("/prueba-supervisor")
+    public ResponseEntity<String> pruebaSupervisor(
+            @AuthenticationPrincipal Jwt jwt) {
+
+        UUID authUserId = UUID.fromString(jwt.getSubject());
+
+        usuarioService.validarRol(authUserId, "SUPERVISOR");
+
+        return ResponseEntity.ok("Acceso permitido para SUPERVISOR");
+    }
 }

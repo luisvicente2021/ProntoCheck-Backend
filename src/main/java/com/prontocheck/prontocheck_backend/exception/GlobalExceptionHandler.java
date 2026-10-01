@@ -46,4 +46,19 @@ public class GlobalExceptionHandler {
                 .status(HttpStatus.CONFLICT)
                 .body(respuesta);
     }
+
+    @ExceptionHandler(SecurityException.class)
+    public ResponseEntity<Map<String, Object>> manejarSinPermisos(
+            SecurityException exception) {
+
+        Map<String, Object> respuesta = new HashMap<>();
+
+        respuesta.put("status", HttpStatus.FORBIDDEN.value());
+        respuesta.put("error", "Forbidden");
+        respuesta.put("mensaje", exception.getMessage());
+
+        return ResponseEntity
+                .status(HttpStatus.FORBIDDEN)
+                .body(respuesta);
+    }
 }

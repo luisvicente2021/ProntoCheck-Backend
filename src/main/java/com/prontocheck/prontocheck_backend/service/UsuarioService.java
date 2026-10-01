@@ -26,4 +26,17 @@ public class UsuarioService {
                         )
                 );
     }
+
+    public Usuario validarRol(UUID authUserId, String rolRequerido) {
+
+        Usuario usuario = obtenerUsuarioActivo(authUserId);
+
+        if (!usuario.getRol().equals(rolRequerido)) {
+            throw new SecurityException(
+                    "No tienes permisos para realizar esta operación"
+            );
+        }
+
+        return usuario;
+    }
 }
